@@ -7,5 +7,9 @@ namespace Classroom.Models
 {
     public class Stream
     {
+        public int id { get; set; }
+        public string message { get; set; }
+        public List<Comment> Comments { get; set; }
+        public DateTime dateTime { get; set; }
     }
 }

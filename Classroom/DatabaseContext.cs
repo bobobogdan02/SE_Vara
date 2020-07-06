@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Classroom.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,14 @@ namespace Classroom
 {
     public class DatabaseContext: DbContext
     {
-        public DatabaseContext()
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) :base(options)
         {
                 
         }
+
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Stream> StreamMessages { get; set; }
+
     }
 }

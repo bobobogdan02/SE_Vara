@@ -7,8 +7,10 @@ namespace Classroom.Models
 {
     public class Assignment
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-
+        public int id { get; set; }
+        public string name { get; set; }
+        public int grade { get; set; }
+        public DateTime deadline { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }
