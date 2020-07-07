@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Classroom.Repositories
 {
-    public class ClassesRepository : IClassRepository
+    public class ClassRepository : IClassRepository
     {
-        private readonly DatabaseContext _appDbContext;
-        public ClassesRepository(DatabaseContext appDbContext)
+        private readonly AppDbContext _appDbContext;
+        public ClassRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }

@@ -12,6 +12,6 @@ namespace Classroom.Models
         public int Age { get; set; }
 
         public List<Class> Classes { get; set; }
-        
+
     }
 }

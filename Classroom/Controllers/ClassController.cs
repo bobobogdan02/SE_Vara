@@ -11,14 +11,14 @@ namespace Classroom.Controllers
 {
     public class ClassController : Controller
     {
-        private readonly DatabaseContext _appDbContext;
+        private readonly AppDbContext _appDbContext;
         private readonly IClassRepository _classesRepository;
-        public ClassController(DatabaseContext appDbContext, IClassRepository classesRepository)
+        public ClassController(AppDbContext appDbContext, IClassRepository classesRepository)
         {
             _appDbContext = appDbContext;
             _classesRepository = classesRepository;
         }
-        public IActionResult ListOfClasses()
+        public IActionResult ClassList()
         {
             IList<Class> classes = new List<Class>();
             foreach (Class @class in _appDbContext.Classes)
@@ -33,7 +33,7 @@ namespace Classroom.Controllers
             return View(classesVM);
         }
 
-        public IActionResult NewClass(Class @class)
+        public IActionResult ClassCreate(Class @class)
         {
 
             return View(@class);
@@ -52,7 +52,7 @@ namespace Classroom.Controllers
             {
                 ClassCourses = classes
             };
-            return View("~/Views/Classes/ListOfClasses.cshtml", classesVM);
+            return View("~/Views/Class/ClassList.cshtml", classesVM);
         }
 
         public ViewResult Class(int courseId)

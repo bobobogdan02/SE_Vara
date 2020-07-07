@@ -18,7 +18,7 @@ namespace Classroom
             using (var scope = host.Services.CreateScope())
             {
                 // Retrieve your DbContext isntance here
-                var dbContext = scope.ServiceProvider.GetService<DatabaseContext>();
+                var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
                 // DbInitializer.Seed(dbContext);
             }
 

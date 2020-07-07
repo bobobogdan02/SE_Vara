@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Classroom
 {
-    public class DatabaseContext: DbContext
+    public class AppDbContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) :base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-                
+
         }
 
         public DbSet<Class> Classes { get; set; }
