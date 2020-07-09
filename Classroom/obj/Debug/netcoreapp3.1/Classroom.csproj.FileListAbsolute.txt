@@ -148,3 +148,6 @@ G:\Facultate\Git\SE_Vara\Classroom\bin\Debug\netcoreapp3.1\runtimes\win\lib\nets
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\Class.cshtml.g.cs
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\ClassList.cshtml.g.cs
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\ClassCreate.cshtml.g.cs
+G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Create.cshtml.g.cs
+G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\CreateAssignment.cshtml.g.cs
+G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\StatusAssignment.cshtml.g.cs

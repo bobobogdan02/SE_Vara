@@ -11,6 +11,8 @@ namespace Classroom.Models
 
         public string Title { get; set; }
 
-        public string Teacher { get; set; }
+        public IList<Assignment> Assignments { get; set;}
+
+        public IList<Stream> Messages { get; set; }
     }
 }

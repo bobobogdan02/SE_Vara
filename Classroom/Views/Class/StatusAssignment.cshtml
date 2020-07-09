@@ -1,0 +1,17 @@
+﻿@model AssignmentStatusViewModel
+<h1>StatusHomeworks</h1>
+@foreach (Assignment assignment in @Model.assignments)
+{
+    <div>
+        <ol>
+
+
+            <li>Title:@assignment.name</li>
+            <li>Description:@assignment.description</li>
+            <li>Deadline:@assignment.deadline</li>
+
+
+        </ol>
+    </div>
+}
+

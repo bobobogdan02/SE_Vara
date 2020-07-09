@@ -1,3 +1,34 @@
-﻿@model Class
-<h2>@Model.Title</h2>
+﻿@model ClassStreamViewModel
+<h2>@Model.Class.Title</h2>
+<a>Register for this class</a>
+<div>
+    <a asp-action="CreateHomeworkView" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">Create Homework</a>
+</div>
+<div>
+    <a asp-action="StatusHomeworks" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">View Homeworks</a>
+</div>
 
+@foreach (Stream streamMessage in @Model.streams)
+{
+    @if (streamMessage.Class == @Model.Class)
+    {
+        <div>
+            <div>@streamMessage.dateTime</div>
+            <div> @streamMessage.message</div>
+        </div>
+    }
+}
+
+<form asp-action="CreateMessage" asp-route-courseId="@Model.Class.Id" method="post" class="form-horizontal" role="form">
+    <div class="form-group">
+        <div class="col-md-5">
+            <input asp-for="@Model.stream.message" class="form-control" />
+            <span asp-validation-for="@Model.stream.message" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="btn-group col-md-offset-2 col-md-8">
+            <input class="btn btn-success" type="submit" value="Post Message" />
+            @*<input class="btn btn-default" type="submit" value="Return " />*@
+        </div>
+</form>
