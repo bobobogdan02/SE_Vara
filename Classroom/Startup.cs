@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Classroom.Interfaces;
 using Classroom.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace Classroom
 {
@@ -27,6 +28,9 @@ namespace Classroom
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentityCore<IdentityUser>()
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(
                 Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
