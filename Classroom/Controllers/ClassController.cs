@@ -1,14 +1,13 @@
 ﻿using Classroom.Interfaces;
 using Classroom.Models;
 using Classroom.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Classroom.Interfaces;
-using Classroom.Models;
-using Classroom.ViewModels;
+
 
 namespace Classroom.Controllers
 {
@@ -18,13 +17,17 @@ namespace Classroom.Controllers
         private readonly IClassRepository _classesRepository;
         private readonly IAssignmentRepository _assignmentRepository;
         private readonly IStreamRepository _streamRepository;
+        private readonly IUserRepository userRepository;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public ClassController(AppDbContext appDbContext, IClassRepository classesRepository, IAssignmentRepository assignmentRepository, IStreamRepository streamRepository)
+        public ClassController(IUserRepository userRepository,UserManager<IdentityUser> userManager,AppDbContext appDbContext, IClassRepository classesRepository, IAssignmentRepository assignmentRepository, IStreamRepository streamRepository)
         {
             _appDbContext = appDbContext;
             _classesRepository = classesRepository;
             _assignmentRepository = assignmentRepository;
             _streamRepository = streamRepository;
+            this.userManager = userManager;
+            this.userRepository = userRepository;
         }
         public IActionResult ClassList()
         {
@@ -49,6 +52,7 @@ namespace Classroom.Controllers
 
         public IActionResult NewClassCreator(Class @class)
         {
+            
             _classesRepository.AddClass(@class);
             IList<Class> classes = new List<Class>();
             foreach (Class classCourse1 in _appDbContext.Classes)
@@ -62,8 +66,33 @@ namespace Classroom.Controllers
             };
             return View("~/Views/Class/ClassList.cshtml", classesVM);
         }
-
-        public ViewResult Class(int courseId, Stream stream1)
+        public IActionResult RegisterToClass(int courseId)
+        {
+            var registerToClassViewModel = new RegisterToClassViewModel()
+            {
+                CourseId = courseId
+            };
+            return View(registerToClassViewModel);
+        }
+        [HttpPost]
+        public IActionResult RegisterToClass(RegisterToClassViewModel registerToClassViewModel)
+        {
+            var classDb = _classesRepository.GetById(registerToClassViewModel.CourseId);
+            var userId = userManager.GetUserId(User);
+            var userDb = userRepository.GetByUserId(userId);
+            if (classDb.SecurityCode == registerToClassViewModel.SecurityCode)
+            {
+                var userClass = new UserClass
+                {
+                    User = userDb,
+                    Class = classDb
+                };
+                userRepository.AddUserToClass(userClass);
+                return RedirectToAction("Class", new { courseId = registerToClassViewModel.CourseId });
+            }
+            return View(registerToClassViewModel);
+        }
+        public IActionResult Class(int courseId, Stream stream1)
         {
             IList<Stream> streams = new List<Stream>();
             var course = _classesRepository.Classes.FirstOrDefault(d => d.Id == courseId);
@@ -77,6 +106,11 @@ namespace Classroom.Controllers
                 streams.Add(stream);
             }
 
+            var userId = userManager.GetUserId(User);
+            if(userRepository.UserBelongsToClassroom(courseId, userId) == false)
+            {
+                return RedirectToAction("RegisterToClass", new { courseId = courseId });
+            }
             var ClassStreamVM = new ClassStreamViewModel
             {
                 Class = course,
@@ -162,7 +196,7 @@ namespace Classroom.Controllers
                 stream = stream,
                 streams = streams
             };
-            return View("~/Views/Classes/Class.cshtml", ClassStreamVM);
+            return RedirectToAction("Class", new { courseId = courseId });
         }
     }
 }

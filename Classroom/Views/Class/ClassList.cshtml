@@ -1,13 +1,25 @@
 ﻿@model Classroom.ViewModels.ClassListViewModel
 
 <h2>Courses</h2>
-
+@if (User.IsInRole("Teacher"))
+{
 <div>
+    <a class="btn btn-hover btn-outline-dark mb-3" asp-action="ClassCreate" asp-controller="Class">New Class</a>
+</div>
+}
+
+<div class="d-flex flex-wrap">
     @foreach (Class classCourse in Model.ClassCourses)
     {
-        <a asp-action="Class" asp-controller="Class" asp-route-courseId="@classCourse.Id">@classCourse.Title</a>
+        <a style="text-decoration:none; margin-bottom:15px; margin-right:15px;" asp-action="Class" asp-controller="Class" asp-route-courseId="@classCourse.Id">
+       
+            <div class="card card-hover" style="cursor:pointer; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <div class="card-body" style="color:black;">
+                    @classCourse.Title
+                </div>
+            </div>
+        </a>
+
     }
 </div>
-<div>
-    <a asp-action="ClassCreate" asp-controller="Class">New Class</a>
-</div>
+

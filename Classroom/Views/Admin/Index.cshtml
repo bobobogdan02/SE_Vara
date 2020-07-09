@@ -1,0 +1,34 @@
+﻿@model Classroom.ViewModels.UsersViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a class="btn btn-outline-dark btn-hover" style="cursor:pointer;margin-bottom:10px;" asp-action="Create">Create Account</a>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            var roles = UserManager.GetRolesAsync(user).GetAwaiter().GetResult();
+            <tr>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @roles[0]
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Classroom.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200707132554_init")]
+    [Migration("20200709150237_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,8 +28,14 @@ namespace Classroom.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("courseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("deadline")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("grade")
                         .HasColumnType("int");
@@ -38,6 +44,8 @@ namespace Classroom.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("courseId");
 
                     b.ToTable("Assignments");
                 });
@@ -48,9 +56,6 @@ namespace Classroom.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Teacher")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -92,6 +97,9 @@ namespace Classroom.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("datetime2");
 
@@ -100,7 +108,16 @@ namespace Classroom.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("ClassId");
+
                     b.ToTable("StreamMessages");
+                });
+
+            modelBuilder.Entity("Classroom.Models.Assignment", b =>
+                {
+                    b.HasOne("Classroom.Models.Class", "course")
+                        .WithMany("Assignments")
+                        .HasForeignKey("courseId");
                 });
 
             modelBuilder.Entity("Classroom.Models.Comment", b =>
@@ -112,6 +129,15 @@ namespace Classroom.Migrations
                     b.HasOne("Classroom.Models.Stream", null)
                         .WithMany("Comments")
                         .HasForeignKey("Streamid");
+                });
+
+            modelBuilder.Entity("Classroom.Models.Stream", b =>
+                {
+                    b.HasOne("Classroom.Models.Class", "Class")
+                        .WithMany("Messages")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

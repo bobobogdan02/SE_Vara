@@ -10,5 +10,6 @@ namespace Classroom.Interfaces
     {
         public void AddClass(Class @class);
         IEnumerable<Class> Classes { get; }
+        public Class GetById(int classId);
     }
 }

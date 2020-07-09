@@ -26,15 +26,8 @@ using Classroom.Models;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 3 "G:\Facultate\Git\SE_Vara\Classroom\Views\_ViewImports.cshtml"
-using Classroom.ViewModels;
-
-#line default
-#line hidden
-#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d8ddb6bffa5a9b264bf8f89038bf03c234083fd3", @"/Views/Home/Privacy.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8137d0cc151abb818f96d499512d7ba8ab9f3074", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"105073a41b42ad0199b1a271bbc9c56eea65b047", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Privacy : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

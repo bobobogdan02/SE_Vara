@@ -1,0 +1,14 @@
+﻿@model Classroom.ViewModels.RegisterToClassViewModel
+@{
+    ViewData["Title"] = "RegisterToClass";
+}
+
+<h3>Register to class</h3>
+
+<form asp-action="RegisterToClass">
+    <label>Register for this class</label>
+    <input asp-for="SecurityCode" class="form-control" />
+    <input asp-for="CourseId" hidden/>
+    <input class="btn btn-outline-dark btn-hover" value="Verify" type="submit"/>
+</form>
+

@@ -12,5 +12,7 @@ namespace Classroom.Models
         public Class Class { get; set; }
         public List<Comment> Comments { get; set; }
         public DateTime dateTime { get; set; }
+
+        public int ClassId { get; set; }
     }
 }

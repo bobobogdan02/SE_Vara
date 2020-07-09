@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Classroom.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Classroom.Interfaces;
+using Classroom.ViewModels;
 using Classroom.Repositories;
-using Microsoft.AspNetCore.Identity;
+using Classroom.Interfaces;
 
 namespace Classroom
 {
@@ -28,28 +30,29 @@ namespace Classroom
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection1")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-            services.AddDbContext<AppDbContext>(
-                Options => Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            );
-            services.AddTransient<IClassRepository, ClassRepository>();
+            services.AddRazorPages();
             services.AddTransient<IAssignmentRepository, AssignmentRepository>();
+            services.AddTransient<IClassRepository, ClassRepository>();
             services.AddTransient<IStreamRepository, StreamRepository>();
-            services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddMemoryCache();
-            services.AddSession();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -62,22 +65,16 @@ namespace Classroom
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "classesclass",
-                    template: "Classes/Class/{courseId?}",
-                    defaults: new { Controller = "Classes", action = "Class" });
-                routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                    name: "classescreatehomework",
-                    template: "Classes/CreateHomework/{courseId?}",
-                    defaults: new { Controller = "Classes", action = "CreateHomework" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
-
-
         }
     }
 }

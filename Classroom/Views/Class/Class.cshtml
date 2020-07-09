@@ -1,8 +1,9 @@
-﻿@model ClassStreamViewModel
+﻿@model Classroom.ViewModels.ClassStreamViewModel
 <h2>@Model.Class.Title</h2>
+
 <a>Register for this class</a>
 <div>
-    <a asp-action="CreateHomeworkView" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">Create Homework</a>
+    <a class="btn btn-outline-dark btn-hover" asp-action="CreateHomeworkView" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">Create Homework</a>
 </div>
 <div>
     <a asp-action="StatusHomeworks" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">View Homeworks</a>
@@ -31,4 +32,5 @@
             <input class="btn btn-success" type="submit" value="Post Message" />
             @*<input class="btn btn-default" type="submit" value="Return " />*@
         </div>
+    </div>
 </form>

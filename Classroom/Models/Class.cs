@@ -14,5 +14,8 @@ namespace Classroom.Models
         public IList<Assignment> Assignments { get; set;}
 
         public IList<Stream> Messages { get; set; }
+
+        public string SecurityCode { get; set; }
+     
     }
 }

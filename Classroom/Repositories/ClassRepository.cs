@@ -16,10 +16,15 @@ namespace Classroom.Repositories
         }
         public void AddClass(Class @class)
         {
+            @class.SecurityCode = Guid.NewGuid().ToString().Substring(0, 7);
             _appDbContext.Classes.Add(@class);
             _appDbContext.SaveChanges();
         }
 
         public IEnumerable<Class> Classes => _appDbContext.Classes;
+        public Class GetById(int classId)
+        {
+            return _appDbContext.Classes.Where(a => a.Id == classId).SingleOrDefault();
+        }
     }
 }

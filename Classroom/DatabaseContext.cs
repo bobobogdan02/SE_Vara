@@ -18,5 +18,8 @@ namespace Classroom
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Stream> StreamMessages { get; set; }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserClass> UserClasses { get; set; }
+
     }
 }
