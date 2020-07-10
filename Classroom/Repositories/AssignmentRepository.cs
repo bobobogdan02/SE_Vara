@@ -17,7 +17,7 @@ namespace Classroom.Repositories
 
         public void AddAssignment(Assignment assignment)
         {
-            _appDbContext.Add(assignment);
+            _appDbContext.Assignments.Add(assignment);
             _appDbContext.SaveChanges();
         }
 

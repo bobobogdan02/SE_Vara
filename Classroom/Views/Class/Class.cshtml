@@ -2,11 +2,14 @@
 <h2>@Model.Class.Title</h2>
 
 <a>Register for this class</a>
+@if (User.IsInRole("Teacher"))
+{
+    <div>
+        <a class="btn btn-outline-dark btn-hover" asp-action="CreateAssignment" asp-controller="Class" asp-route-courseId="@Model.Class.Id">Create Homework</a>
+    </div>
+}
 <div>
-    <a class="btn btn-outline-dark btn-hover" asp-action="CreateHomeworkView" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">Create Homework</a>
-</div>
-<div>
-    <a asp-action="StatusHomeworks" asp-controller="Classes" asp-route-courseId="@Model.Class.Id">View Homeworks</a>
+    <a class="btn btn-outline-dark btn-hover" asp-action="StatusAssignment" asp-controller="Class" asp-route-courseId="@Model.Class.Id">View Homeworks</a>
 </div>
 
 @foreach (Stream streamMessage in @Model.streams)
@@ -29,7 +32,7 @@
     </div>
     <div class="form-group">
         <div class="btn-group col-md-offset-2 col-md-8">
-            <input class="btn btn-success" type="submit" value="Post Message" />
+            <input class="btn btn-outline-dark btn-hover" type="submit" value="Post Message" />
             @*<input class="btn btn-default" type="submit" value="Return " />*@
         </div>
     </div>

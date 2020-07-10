@@ -120,14 +120,15 @@ namespace Classroom.Controllers
 
             return View(ClassStreamVM);
         }
-        public IActionResult CreateHomeworkView(int courseId, AssignmentViewModel assignment)
+        public IActionResult CreateAssignment(int courseId, AssignmentViewModel assignmentVM)
         {
             var course = _classesRepository.Classes.FirstOrDefault(d => d.Id == courseId);
-            assignment.course = course;
-            return View(assignment);
+            assignmentVM.course = course;
+            return View(assignmentVM);
         }
         public IActionResult CreateHomework(int courseId, Assignment assignment)
         {
+            IList<Stream> streams = new List<Stream>();
             var course = _classesRepository.Classes.FirstOrDefault(d => d.Id == courseId);
             if (course == null)
             {
@@ -143,9 +144,19 @@ namespace Classroom.Controllers
             AssignmentModel.assignment.course = course;
             _assignmentRepository.AddAssignment(AssignmentModel.assignment);
 
-            return View("~/Views/Classes/Class.cshtml", AssignmentModel.course);
+            foreach (Stream stream in _appDbContext.StreamMessages)
+            {
+                streams.Add(stream);
+            }
+
+            var ClassStreamVM = new ClassStreamViewModel
+            {
+                Class = course,
+                streams = streams
+            };
+            return View("~/Views/Class/Class.cshtml", ClassStreamVM);
         }
-        public IActionResult StatusHomeworks(int courseId)
+        public IActionResult StatusAssignment(int courseId)
         {
             var course = _classesRepository.Classes.FirstOrDefault(d => d.Id == courseId);
             IList<Assignment> assignments = new List<Assignment>();
@@ -154,7 +165,6 @@ namespace Classroom.Controllers
                 if (course == assignment.course)
                 {
                     assignments.Add(assignment);
-
 
                 }
             }
@@ -197,6 +207,12 @@ namespace Classroom.Controllers
                 streams = streams
             };
             return RedirectToAction("Class", new { courseId = courseId });
+        }
+
+        public IActionResult AssignmentView(int assignmentId)
+        {
+            Assignment assignmentDb = _appDbContext.Assignments.Where(a => a.id == assignmentId).SingleOrDefault();
+            return View(assignmentDb);
         }
     }
 }
