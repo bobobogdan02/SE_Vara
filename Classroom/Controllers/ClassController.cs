@@ -19,8 +19,10 @@ namespace Classroom.Controllers
         private readonly IStreamRepository _streamRepository;
         private readonly IUserRepository userRepository;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IAssignmentSubmitRepository assignmentSubmitRepository;
+        
 
-        public ClassController(IUserRepository userRepository,UserManager<IdentityUser> userManager,AppDbContext appDbContext, IClassRepository classesRepository, IAssignmentRepository assignmentRepository, IStreamRepository streamRepository)
+        public ClassController(IAssignmentSubmitRepository assignmentSubmitRepository,IUserRepository userRepository,UserManager<IdentityUser> userManager,AppDbContext appDbContext, IClassRepository classesRepository, IAssignmentRepository assignmentRepository, IStreamRepository streamRepository)
         {
             _appDbContext = appDbContext;
             _classesRepository = classesRepository;
@@ -28,6 +30,7 @@ namespace Classroom.Controllers
             _streamRepository = streamRepository;
             this.userManager = userManager;
             this.userRepository = userRepository;
+            this.assignmentSubmitRepository = assignmentSubmitRepository;
         }
         public IActionResult ClassList()
         {
@@ -209,10 +212,72 @@ namespace Classroom.Controllers
             return RedirectToAction("Class", new { courseId = courseId });
         }
 
-        public IActionResult AssignmentView(int assignmentId)
+        public IActionResult AssignmentView(int assignmentId, AssignmentSubmit assignmentSubmit)
         {
             Assignment assignmentDb = _appDbContext.Assignments.Where(a => a.id == assignmentId).SingleOrDefault();
-            return View(assignmentDb);
+            var assignmentSubmitVM = new AssignmentSubmitViewModel
+            {
+                AssignmentSubmit = assignmentSubmit,
+                Assignment = assignmentDb
+            };
+
+            return View(assignmentSubmitVM);
+        }
+
+        public IActionResult GetSecurityCode(int courseId)
+        {
+            var course = _appDbContext.Classes.Where(a => a.Id == courseId).SingleOrDefault();
+            var securityCode = course.SecurityCode;
+            return View(securityCode);
+        }
+        public IActionResult SubmitView(AssignmentSubmit assignmentSubmit, Assignment assignment)
+        {
+            var assignmentVM = new AssignmentSubmitViewModel 
+            { 
+                AssignmentSubmit = assignmentSubmit,
+                Assignment = assignment
+            };
+            return View("~/Views/Class/SubmitView.cshtml",assignmentVM);
+        }
+        public IActionResult Submit(int assignmentId, AssignmentSubmit assignmentSubmit)
+        {
+            var userId = userManager.GetUserId(User);
+            var userDb = userRepository.GetByUserId(userId);
+            var Assignment = _appDbContext.Assignments.Where(a => a.id == assignmentId).SingleOrDefault();
+            assignmentSubmit.user = userDb;
+            assignmentSubmit.assignment = Assignment;
+            assignmentSubmitRepository.Add(assignmentSubmit);
+            return View("~/Views/Home/Index.cshtml");
+        }
+
+        public IActionResult ViewSubmitted(int assignmentId)
+        {
+          
+           
+            IList<AssignmentSubmit> assignmentSubmits = new List<AssignmentSubmit>();
+            var assignment = _appDbContext.Assignments.Where(a => a.id == assignmentId).SingleOrDefault();
+            var user = userManager.Users;
+            foreach (AssignmentSubmit assignmentSubmit in _appDbContext.AssignmentSubmits)
+            {
+               
+                
+                    if (assignmentSubmit.assignment == assignment)
+                    {
+                        assignmentSubmits.Add(assignmentSubmit);
+                        
+
+                    }
+                
+            }
+            var submittedWorkVM = new SubmittedWorkViewModel
+            {
+            
+                assignmentSubmits = assignmentSubmits
+                
+            };
+            return View(submittedWorkVM);
+
+
         }
     }
 }

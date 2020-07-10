@@ -163,3 +163,4 @@ G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Classroom.MvcApplicat
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Classroom.MvcApplicationPartsAssemblyInfo.cache
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\RegisterToClass.cshtml.g.cs
 G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\AssignmentView.cshtml.g.cs
+G:\Facultate\Git\SE_Vara\Classroom\obj\Debug\netcoreapp3.1\Razor\Views\Class\ViewSubmitted.cshtml.g.cs

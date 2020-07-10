@@ -21,5 +21,7 @@ namespace Classroom
         public DbSet<User> Users { get; set; }
         public DbSet<UserClass> UserClasses { get; set; }
 
+        public DbSet<AssignmentSubmit> AssignmentSubmits { get; set; }
+
     }
 }

@@ -1,0 +1,37 @@
+﻿@model Classroom.ViewModels.SubmittedWorkViewModel
+
+<h3>Submitted Work</h3>
+
+
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Response</th>
+            <th scope="col">Author</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (AssignmentSubmit assignment in @Model.assignmentSubmits)
+        {
+
+            
+            
+
+                <tr>
+                    <td>
+                        @assignment.content
+
+                    </td>
+                   
+                    <td>
+                        TBD
+                    </td>
+                    
+                </tr>
+            
+         }
+    </tbody>
+</table>

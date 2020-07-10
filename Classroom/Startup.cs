@@ -44,6 +44,7 @@ namespace Classroom
             services.AddTransient<IClassRepository, ClassRepository>();
             services.AddTransient<IStreamRepository, StreamRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAssignmentSubmitRepository, AssignmentSubmitRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

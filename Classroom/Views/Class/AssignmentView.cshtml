@@ -1,17 +1,36 @@
-﻿@model Classroom.Models.Assignment
+﻿@model Classroom.ViewModels.AssignmentSubmitViewModel
 
-<h3>@Model.name</h3>
+<h3>@Model.Assignment.name</h3>
 
 
 <div>
 
-    @Model.description
+    @Model.Assignment.description
 
 </div>
 
-<a class="btn btn-outline-dark btn-hover">Submit</a>
+@if (User.IsInRole("Student"))
+{
+    <form asp-action="Submit" asp-route-assignmentId="@Model.Assignment.id" method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="col-md-5">
+                <input asp-for="@Model.AssignmentSubmit.content" class="form-control" />
+                <span asp-validation-for="@Model.AssignmentSubmit.content" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="btn-group col-md-offset-2 col-md-8">
+                <input class="btn btn-outline-dark btn-hover" type="submit" value="Submit" />
+                @*<input class="btn btn-default" type="submit" value="Return " />*@
+            </div>
+        </div>
+    </form>
+}
 
 
-
-<a class="btn btn-outline-dark btn-hover">View submitted work</a>
-
+@if (User.IsInRole("Teacher"))
+{
+    <div>
+        <a class="btn btn-outline-dark btn-hover" asp-action="ViewSubmitted" asp-route-assignmentId="@Model.Assignment.id">View submitted work</a>
+    </div>
+}

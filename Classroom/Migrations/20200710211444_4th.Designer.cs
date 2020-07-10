@@ -4,14 +4,16 @@ using Classroom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Classroom.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710211444_4th")]
+    partial class _4th
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,31 +48,6 @@ namespace Classroom.Migrations
                     b.HasIndex("courseId");
 
                     b.ToTable("Assignments");
-                });
-
-            modelBuilder.Entity("Classroom.Models.AssignmentSubmit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("assignmentid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("userId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("assignmentid");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("AssignmentSubmits");
                 });
 
             modelBuilder.Entity("Classroom.Models.Class", b =>
@@ -184,17 +161,6 @@ namespace Classroom.Migrations
                     b.HasOne("Classroom.Models.Class", "course")
                         .WithMany("Assignments")
                         .HasForeignKey("courseId");
-                });
-
-            modelBuilder.Entity("Classroom.Models.AssignmentSubmit", b =>
-                {
-                    b.HasOne("Classroom.Models.Assignment", "assignment")
-                        .WithMany()
-                        .HasForeignKey("assignmentid");
-
-                    b.HasOne("Classroom.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("Classroom.Models.Comment", b =>

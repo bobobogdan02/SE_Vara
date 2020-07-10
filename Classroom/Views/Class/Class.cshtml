@@ -1,9 +1,13 @@
 ﻿@model Classroom.ViewModels.ClassStreamViewModel
 <h2>@Model.Class.Title</h2>
 
-<a>Register for this class</a>
+
 @if (User.IsInRole("Teacher"))
 {
+    <div>
+        <h4>Register Code : @Model.Class.SecurityCode</h4>
+    </div>
+
     <div>
         <a class="btn btn-outline-dark btn-hover" asp-action="CreateAssignment" asp-controller="Class" asp-route-courseId="@Model.Class.Id">Create Homework</a>
     </div>
